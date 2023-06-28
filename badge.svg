@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="205" height="30">
+  <defs>
+    <linearGradient id="GreyGradient" x1="0" x2="0" y1="0" y2="1">
+	  <stop offset="0%" stop-color="#444"/>
+	  <stop offset="100%" stop-color="#222" />
+	</linearGradient>
+	
+	<clipPath id="show-left">
+	  <rect x="0" y="0" width="75" height="30" />
+	</clipPath>
+
+	<clipPath id="show-center">
+	  <rect x="75" y="0" width="65" height="30" />
+	</clipPath>
+
+	<clipPath id="show-right">
+	  <rect x="140" y="0" width="65" height="30" />
+	</clipPath>
+
+
+  </defs>
+		
+ 
+  <!-- Rectangle. Rounded corners. Slight gradiant down. 
+       3 regions.
+	   Text region left. Dark grey region. White text. Drop shadow down right.
+	   If build fails or tests fail w/o creating check-guile.log or timeout: right box red "FAIL"
+       If make check completes creating a check-guile.log, grep "Totals for this test run"
+	     If found,
+		   Count number of "FAIL:" but not "XFAIL:"
+		   Count number of "ERROR:"
+		   If failures > 0, errors = 0
+		     Right box orange. "# FAILURES"
+		   If errors > 0, failures = 0
+		     Right box brown, "# ERRORS"
+		   If both
+		     mid box orange "# FAIL" right box brown "# ERROR"
+		   If neither
+		     right box green, "PASS"
+		   If timeout
+		     right box red, "TIMEOUT"
+		   
+
+	   Rounded corners. -->
+  <!-- Show outline of viewport using 'rect' element -->
+  <rect width="205" height="30" rx="4" ry="4" fill="brown"/>
+  <text x="145" y="20" font-family="Verdana" font-size="12" fill="white" >
+    4 ERROR
+  </text>
+
+  <rect width="205" height="30" rx="4" ry="4" fill="darkorange" clip-path="url(#show-center)" />
+  <text x="80" y="20" font-family="Verdana" font-size="12" fill="white" >
+    4 FAIL
+  </text>  
+  
+  <rect width="205" height="30" rx="4" ry="4"
+        fill="url(#GreyGradient)" clip-path="url(#show-left)"/>
+		
+  <!-- x is left start. y is (centerline - font-height/2) -->
+  <text x="5" y="20"
+        font-family="Verdana" font-size="12" fill="white" >
+    MINGW32
+  </text>
+ 
+
+</svg>
