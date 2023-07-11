@@ -4,6 +4,7 @@ Make
 Make check
 
 disable deprecated warning in guile
+GUILE_WARN_DEPRECATED=no
 
 grep log for FAIL and ERROR:
 grep footer for # errors and warnings:
