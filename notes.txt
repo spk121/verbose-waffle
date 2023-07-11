@@ -1,0 +1,15 @@
+Checkout
+Configure
+Make
+Make check
+
+disable deprecated warning in guile
+
+grep log for FAIL and ERROR:
+grep footer for # errors and warnings:
+make SVGs
+upload SVG to /%host-type/%options/build.svg
+upload abbreviated check-guile.log to /%host-type/%options/check.log
+
+Can I get github readme.md markdown to insert a text blog as an image?
+I can make a text svg easily enough.
