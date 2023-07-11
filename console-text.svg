@@ -1,17 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="656" height="96">
 
   <!-- SVG default text size is 12 pt which is about 16 px tall -->
-  <!-- text width? Hard to say, but, less than 16px for sure, even with monospace -->
-  <!-- anyway, if we go with 16px height per line plus padding,
-       Then for line length, figure 60 * 16 so it holds at least 60 characters
-       but probably more -->
-  <!-- Here is 5 lines, so height is 5 x 16px + 8px padding top and 8px padding bottom -->
-  <!--- Width per glyph is probably around 8 px for monospace, so set to 80 x 8 px width + 8 px padding left and 8 px right -->
+  <!-- Here are 5 lines, so height is 5 x 16px + 8px padding top and 8px padding bottom -->
+  <!-- Width per glyph is probably around 8 px for monospace, so set to 80 x 8 px width + 8 px padding left and 8 px right -->
   <rect width="656" height="96" rx="4" ry="4" fill="black" />
   <text x="8" y="24" font-family="monospace" fill="white">
    Line #1
     <tspan x="8" y="40">This is a SVG text.</tspan>
     <tspan x="8" y="56">This is a SVG text.</tspan>
     <tspan x="8" y="72">This is a longer longer longer SVG text.</tspan>
+    <tspan x="8" y="88">This is the last line.</tspan>
   </text>
 </svg>
