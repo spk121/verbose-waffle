@@ -3,19 +3,37 @@ Configure
 Make
 Make check
 
+make it so new actions from a new commit cancel incomplete actions from a previous commit
+
 disable deprecated warning in guile
 GUILE_WARN_DEPRECATED=no
 
-grep log for FAIL and ERROR:
-grep footer for # errors and warnings:
-make SVGs
-upload SVG to /%host-type/%options/build.svg
-upload abbreviated check-guile.log to /%host-type/%options/check.log
+swap all XFAIL tests to PASS tests
 
-Can I get github readme.md markdown to insert a text blog as an image?
-I can make a text svg easily enough.
+figure out what is printing this:
+  ;;; SSAX warning: DOCTYPE DECL T system1 found and skipped
+  WARNING: (test-suite sxml-xpath): imported module (sxml xpath) overrides core binding `filter'
 
-I could use a Azure binary blob storage to hold the SVGs
+text blob svg
+  commit #
+  date
+  grep config.log for "./configure" call.
+  grep log for FAIL and ERROR:
+  grep footer for # errors and warnings:
+end
+
+pass/fail SVG
+  if no footer "DNF" (red)
+  if footer, count FAIL & ERROR;
+  zero fails and errors "PASS" (green)
+  # FAILS and # ERRORS (orange
+end
+
+upload SVG to /%host-type/badge.svg
+upload abbreviated text blob svg  /%host-type/report.svg
+
+
+Update README.md to 
 
 ----------
 name: Blob storage website CI
