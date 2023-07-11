@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="978" height="96" style="border:1px solid #cccccc">
+<svg xmlns="http://www.w3.org/2000/svg" width="978" height="96">
 
   <!-- SVG default text size is 12 pt which is about 16 px tall -->
   <!-- text width? Hard to say, but, less than 16px for sure, even with monospace -->
@@ -7,7 +7,8 @@
        but probably more -->
   <!-- Here is 5 lines, so height is 5 x 16px + 8px padding top and 8px padding bottom -->
   <!--- Width is set to 60 x 16 px width + 8 px padding left and 8 px right -->
-  <text x="8" y="24" style="fill:green, font-family:monospace">
+  <rect width="978" height="96" rx="4" ry="4" fill="black" />
+  <text x="8" y="24" font-family="monospace" fill="green">
    Line #1
     <tspan x="8" y="40">This is a SVG text.</tspan>
     <tspan x="8" y="56">This is a SVG text.</tspan>
