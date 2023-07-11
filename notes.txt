@@ -4,6 +4,9 @@ Make
 Make check
 
 make it so new actions from a new commit cancel incomplete actions from a previous commit
+  concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
 
 disable deprecated warning in guile
 GUILE_WARN_DEPRECATED=no
