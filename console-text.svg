@@ -8,7 +8,7 @@
   <!-- Here is 5 lines, so height is 5 x 16px + 8px padding top and 8px padding bottom -->
   <!--- Width is set to 60 x 16 px width + 8 px padding left and 8 px right -->
   <rect width="978" height="96" rx="4" ry="4" fill="black" />
-  <text x="8" y="24" font-family="monospace" fill="green">
+  <text x="8" y="24" font-family="monospace" fill="white">
    Line #1
     <tspan x="8" y="40">This is a SVG text.</tspan>
     <tspan x="8" y="56">This is a SVG text.</tspan>
