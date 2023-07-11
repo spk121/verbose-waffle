@@ -18,14 +18,16 @@ figure out what is printing this:
   WARNING: (test-suite sxml-xpath): imported module (sxml xpath) overrides core binding `filter'
 
 text blob svg
-  commit #
-  date
-  grep config.log for "./configure" call.
+  [grep for uname -m and uname -s] `uname-s` `uname-m` -> MSYS_NT-10.0-20348 x86_64
+  [git log --format="%cs %h" -n 1] short date plus abbreviated hash
+  [find first line that contains $] -> "$ ./configure ..."
+  if no log: "No tests run"
   grep log for FAIL and ERROR:
-  grep footer for # errors and warnings:
+  Add errors or "All tests pass"
 end
 
 pass/fail SVG
+  left box is uname -s up to first hyphen: "MSYS_NT" "MINGW64_NT"
   if no footer "DNF" (red)
   if footer, count FAIL & ERROR;
   zero fails and errors "PASS" (green)
