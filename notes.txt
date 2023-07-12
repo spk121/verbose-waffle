@@ -37,6 +37,14 @@ end
 upload SVG to /%host-type/badge.svg
 upload abbreviated text blob svg  /%host-type/report.svg
 
+--
+revert string hash to unsigned long
+in strings.c, make index size_t or ssize_t
+in scmsigs.c, SIG_DFL etc can stay long, but, handlers are intptr_t
+in scm_set_port_line_x, change intptr_t to whatever scm_port_position_set_line actually needs
+in bytevectors.c, can I remove some of the INT32_C from is_signed_int8 and friends?
+in u8-list->bytevector there is a "1ULL"
+--
 
 Update README.md to 
 
