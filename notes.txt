@@ -38,6 +38,13 @@ upload SVG to /%host-type/badge.svg
 upload abbreviated text blob svg  /%host-type/report.svg
 
 --
+reverting scm_t_inum
+ - need SCM_SIZEOF_INUM
+ - if uinptr_t_to_bignum is only used for inums, rename to inum_to_bignum
+ - dittor intptr_t_magnitude
+ - ditto bignum_cmp_long
+ - 
+
 revert string hash to unsigned long
 in strings.c, make index size_t or ssize_t
 in scmsigs.c, SIG_DFL etc can stay long, but, handlers are intptr_t
