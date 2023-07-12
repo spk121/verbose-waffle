@@ -45,6 +45,10 @@ reverting scm_t_inum
  - ditto bignum_cmp_long
  - 
 
+mini-gmp
+ - map mp_limb_t, gmp_sint_t, gmp_uint_t to int32_t or int64_t instead of intptr_t
+ - rename GMP_ULONG_BITS and GMP_ULONG_HIGHBIT
+
 revert string hash to unsigned long
 in strings.c, make index size_t or ssize_t
 in scmsigs.c, SIG_DFL etc can stay long, but, handlers are intptr_t
