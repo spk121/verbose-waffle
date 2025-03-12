@@ -1,0 +1,7 @@
+# Normalize all text files to LF, even on Windows
+* text=auto eol=lf
+
+# Explicitly mark any binaries to prevent conversion
+*.png binary
+*.jpg binary
+*.pdf binary
