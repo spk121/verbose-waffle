@@ -30,7 +30,7 @@ Quick examples of how to run the scripts.
 ## Examples
 Showcase the tool in action.
 - Input: `inputs/test1.txt`
-→ Output: `outputs/test1_output.png` (optionally embed an image: `![Sample](outputs/test1_output.png)`).
+    Output: `outputs/test1_output.png` (optionally embed an image: `![Sample](outputs/test1_output.png)`).
 - Command: `./scripts/generate.sh inputs/test2.txt outputs/test2.jpg`
 
 ## Contributing
