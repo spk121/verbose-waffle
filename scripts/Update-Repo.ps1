@@ -63,16 +63,16 @@ try {
 }
 
 # Fetch the latest changes from origin
-git fetch origin
+& "C:\Program Files\Git\bin\git.exe" fetch origin
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Error: Git fetch failed in $DataDir"
     exit 1
 }
 
 # Try to checkout master; if it fails, create it from origin/master
-git checkout master 2>&1 | Out-Null
+& "C:\Program Files\Git\bin\git.exe" checkout master 2>&1 | Out-Null
 if ($LASTEXITCODE -ne 0) {
-    git checkout -b master origin/master
+    & "C:\Program Files\Git\bin\git.exe" checkout -b master origin/master
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Error: Failed to create master branch in $DataDir"
         exit 1
@@ -80,7 +80,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # Pull with rebase to update to origin/master
-git pull --rebase origin master
+& "C:\Program Files\Git\bin\git.exe" pull --rebase origin master
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Error: Git pull --rebase failed in $DataDir"
     exit 1
@@ -116,8 +116,8 @@ if (Test-Path -Path $DestPath -PathType Leaf) {
         Write-Output "Error: Failed to copy $SrcFile to $DestPath"
         exit 1
     }
-    git add $DestPath
-    git commit -m "$CommitMsg"
+    & "C:\Program Files\Git\bin\git.exe" add $DestPath
+    & "C:\Program Files\Git\bin\git.exe" commit -m "$CommitMsg"
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Error: Git commit failed in $DataDir"
         exit 1
@@ -131,8 +131,8 @@ if (Test-Path -Path $DestPath -PathType Leaf) {
         Write-Output "Error: Failed to copy $SrcFile to $DestPath"
         exit 1
     }
-    git add $DestPath
-    git commit -m "$CommitMsg"
+    & "C:\Program Files\Git\bin\git.exe" add $DestPath
+    & "C:\Program Files\Git\bin\git.exe" commit -m "$CommitMsg"
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Error: Git commit failed in $DataDir"
         exit 1
