@@ -37,11 +37,15 @@ param (
     [Parameter(Mandatory=$true)][string]$CommitMsg
 )
 
+$gitPath = "C:\Program Files\Git\bin\git.exe"
+
 # Check for correct number of arguments
 if ($PSBoundParameters.Count -ne 4) {
     Write-Output "Usage: .\Update-Repo.ps1 -DataDir <DATADIR> -DestFile <DEST_FILE> -SrcFile <SRC_FILE> -CommitMsg <COMMIT_MSG>"
     exit 1
 }
+
+$originalDir = Get-Location
 
 # Create DataDir if it doesn’t exist
 if (-not (Test-Path -Path $DataDir -PathType Container)) {
@@ -54,6 +58,14 @@ if (-not (Test-Path -Path $DataDir -PathType Container)) {
     }
 }
 
+# Check if SrcFile exists
+if (-not (Test-Path -Path $SrcFile -PathType Leaf)) {
+    Write-Output "Error: Source file $SrcFile does not exist"
+    exit 1
+}
+
+$SrcPath = Resolve-Path $SrcFile
+
 # Change to DataDir
 try {
     Set-Location -Path $DataDir -ErrorAction Stop
@@ -63,34 +75,32 @@ try {
 }
 
 # Fetch the latest changes from origin
-& "C:\Program Files\Git\bin\git.exe" fetch origin
+& $gitPath fetch origin
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Error: Git fetch failed in $DataDir"
+    Set-Location $originalDir
     exit 1
 }
 
 # Try to checkout master; if it fails, create it from origin/master
-& "C:\Program Files\Git\bin\git.exe" checkout master 2>&1 | Out-Null
+& $gitPath checkout master 2>&1 | Out-Null
 if ($LASTEXITCODE -ne 0) {
-    & "C:\Program Files\Git\bin\git.exe" checkout -b master origin/master
+    & $gitPath checkout -b master origin/master
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Error: Failed to create master branch in $DataDir"
+        Set-Location $originalDir
         exit 1
     }
 }
 
 # Pull with rebase to update to origin/master
-& "C:\Program Files\Git\bin\git.exe" pull --rebase origin master
+& $gitPath pull --rebase origin master
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Error: Git pull --rebase failed in $DataDir"
+    Set-Location $originalDir
     exit 1
 }
 
-# Check if SrcFile exists
-if (-not (Test-Path -Path $SrcFile -PathType Leaf)) {
-    Write-Output "Error: Source file $SrcFile does not exist"
-    exit 1
-}
 
 # Define destination path relative to DataDir
 $DestPath = Join-Path -Path $DataDir -ChildPath $DestFile
@@ -99,45 +109,51 @@ $DestPath = Join-Path -Path $DataDir -ChildPath $DestFile
 if (Test-Path -Path $DestPath -PathType Leaf) {
     # Destination exists; compare with source
     try {
-        $srcContent = Get-Content -Path $SrcFile -Raw -ErrorAction Stop
+        $srcContent = Get-Content -Path $SrcPath -Raw -ErrorAction Stop
         $destContent = Get-Content -Path $DestPath -Raw -ErrorAction Stop
         if ($srcContent -eq $destContent) {
-            Write-Output "Destination file $DestFile in $DataDir is identical to source file $SrcFile"
+            Write-Output "Destination file $DestFile in $DataDir is identical to source file $SrcPath"
             exit 0
         }
     } catch {
         Write-Output "Error: Failed to read files for comparison"
+        Set-Location $originalDir
         exit 1
     }
     # Files differ; update and commit
     try {
-        Copy-Item -Path $SrcFile -Destination $DestPath -Force -ErrorAction Stop
+        Copy-Item -Path $SrcPath -Destination $DestPath -Force -ErrorAction Stop
     } catch {
-        Write-Output "Error: Failed to copy $SrcFile to $DestPath"
+        Write-Output "Error: Failed to copy $SrcPath to $DestPath"
+        Set-Location $originalDir
         exit 1
     }
-    & "C:\Program Files\Git\bin\git.exe" add $DestPath
-    & "C:\Program Files\Git\bin\git.exe" commit -m "$CommitMsg"
+    & $gitPath add $DestPath
+    & $gitPath commit -m "$CommitMsg"
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Error: Git commit failed in $DataDir"
+        Set-Location $originalDir
         exit 1
     }
     Write-Output "Updated $DestFile in $DataDir and committed changes"
 } else {
     # Destination doesn’t exist; copy and commit
     try {
-        Copy-Item -Path $SrcFile -Destination $DestPath -Force -ErrorAction Stop
+        Copy-Item -Path $SrcPath -Destination $DestPath -Force -ErrorAction Stop
     } catch {
-        Write-Output "Error: Failed to copy $SrcFile to $DestPath"
+        Write-Output "Error: Failed to copy $SrcPath to $DestPath"
+        Set-Location $originalDir
         exit 1
     }
-    & "C:\Program Files\Git\bin\git.exe" add $DestPath
-    & "C:\Program Files\Git\bin\git.exe" commit -m "$CommitMsg"
+    & $gitPath add $DestPath
+    & $gitPath commit -m "$CommitMsg"
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Error: Git commit failed in $DataDir"
+        Set-Location $originalDir
         exit 1
     }
     Write-Output "Created $DestFile in $DataDir and committed changes"
 }
 
+Set-Location $originalDir
 exit 0
