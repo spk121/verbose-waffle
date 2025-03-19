@@ -46,6 +46,7 @@ if ($PSBoundParameters.Count -ne 4) {
 }
 
 $originalDir = Get-Location
+$DataDir = Convert-Path $DataDir
 
 # Create DataDir if it doesn’t exist
 if (-not (Test-Path -Path $DataDir -PathType Container)) {
