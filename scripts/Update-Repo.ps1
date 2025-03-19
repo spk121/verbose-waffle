@@ -110,8 +110,8 @@ $DestPath = Join-Path -Path $DataDir -ChildPath $DestFile
 if (Test-Path -Path $DestPath -PathType Leaf) {
     # Destination exists; compare with source
     try {
-        $srcContent = Get-Content -Path $SrcPath -Raw -ErrorAction Stop
-        $destContent = Get-Content -Path $DestPath -Raw -ErrorAction Stop
+        $srcContent = (Get-Content -Path $SrcPath -Raw -ErrorAction Stop) -replace "`r`n", "`n"
+        $destContent = (Get-Content -Path $DestPath -Raw -ErrorAction Stop) -replace "`r`n", "`n"
         if ($srcContent -eq $destContent) {
             Write-Output "Destination file $DestFile in $DataDir is identical to source file $SrcPath"
             exit 0
