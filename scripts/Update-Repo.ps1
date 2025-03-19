@@ -155,6 +155,12 @@ if (Test-Path -Path $DestPath -PathType Leaf) {
     }
     Write-Output "Created $DestFile in $DataDir and committed changes"
 }
-
+& $gitPath push
+if ($LASTEXITCODE -ne 0) {
+    Write-Output "Error: Git push failed in $DataDir"
+    Set-Location $originalDir
+    exit 1
+}
 Set-Location $originalDir
 exit 0
+
