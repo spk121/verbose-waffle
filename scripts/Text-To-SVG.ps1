@@ -21,8 +21,8 @@ $CHAR_WIDTH = 8    # 8px per character for monospace
 $TAB_WIDTH = 4     # Number of spaces per tab (for width calculation)
 
 # Read all input from pipeline into an array of lines.
-# Ignore empty lines.
-$lines = ($input -split "\r?\n") | Where-Object { $_ }
+# Ignore empty lines.  Gonna handle all the line terminators, just for fun.
+$lines = ($input -split '(?:\r\n)|[\n\r\u0085\u2028\u2029]') | Where-Object { $_ }
 
 # Calculate dimensions based on content
 $lineCount = $lines.Count
