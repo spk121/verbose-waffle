@@ -6,7 +6,7 @@
 #   specified by the third argument. Outputs the badge in SVG format to stdout.
 #
 # Usage:
-#   .\New-Badge.ps1 -Name <name> -Status <status> -Color <color>
+#   .\Basic-Badge.ps1 -Name <name> -Status <status> -Color <color>
 #
 # Parameters:
 #   Name    - The text to display on the left side of the badge.
@@ -14,7 +14,7 @@
 #   Color   - The color for the right side of the badge (e.g., 'green', '#00FF00').
 #
 # Example:
-#   .\New-Badge.ps1 -Name "Cygwin" -Status "passing" -Color "green"
+#   .\Basic-Badge.ps1 -Name "Cygwin" -Status "passing" -Color "green"
 
 # Define parameters
 param (
@@ -25,16 +25,30 @@ param (
 
 # Check for correct number of arguments
 if ($PSBoundParameters.Count -ne 3) {
-    Write-Error "Usage: .\New-Badge.ps1 -Name <name> -Status <status> -Color <color>"
-    Write-Error "Example: .\New-Badge.ps1 -Name 'Cygwin' -Status 'passing' -Color 'green'"
+    Write-Error "Usage: .\Basic-Badge.ps1 -Name <name> -Status <status> -Color <color>"
+    Write-Error "Example: .\Basic-Badge.ps1 -Name 'Cygwin' -Status 'passing' -Color 'green'"
     exit 1
 }
 
-# Calculate text widths (approximate: 8px per character for 12pt font, plus padding)
-$NameWidth = ($Name.Length * 8 + 20)  # 8px per char + 20px padding
-$StatusWidth = ($Status.Length * 8 + 20)  # 8px per char + 20px padding
+# Function to escape XML special characters
+function Escape-Xml {
+    param ([string]$text)
+    $text -replace '&', '&amp;' `
+          -replace '<', '&lt;' `
+          -replace '>', '&gt;' `
+          -replace '"', '&quot;' `
+          -replace "'", '&apos;'
+}
+
+# Calculate text widths using original, unescaped strings (approximate: 8px per character for 12pt font, plus padding)
+$NameWidth = ($Name.Length * 8 + 20)    # 8px per char + 20px padding
+$StatusWidth = ($Status.Length * 8 + 20) # 8px per char + 20px padding
 $TotalWidth = $NameWidth + $StatusWidth
-$TextOffset = $NameWidth + 10  # 10px padding for status text
+$TextOffset = $NameWidth + 10            # 10px padding for status text
+
+# Escape the name and status for SVG inclusion
+$escapedName = Escape-Xml $Name
+$escapedStatus = Escape-Xml $Status
 
 # SVG content as a here-string, output to stdout
 Write-Output @"
@@ -55,10 +69,10 @@ Write-Output @"
 
   <!-- Left side: black gradient rectangle with name -->
   <rect x="0" y="0" width="$NameWidth" height="24" fill="url(#blackGradient)"/>
-  <text x="10" y="17" font-family="sans-serif" font-size="12" fill="white" style="filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));">$Name</text>
+  <text x="10" y="17" font-family="sans-serif" font-size="12" fill="white" style="filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));">$escapedName</text>
   
   <!-- Right side: colored gradient rectangle with status -->
   <rect x="$NameWidth" y="0" width="$StatusWidth" height="24" fill="url(#colorGradient)"/>
-  <text x="$TextOffset" y="17" font-family="sans-serif" font-size="12" fill="white" style="filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));">$Status</text>
+  <text x="$TextOffset" y="17" font-family="sans-serif" font-size="12" fill="white" style="filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));">$escapedStatus</text>
 </svg>
 "@
